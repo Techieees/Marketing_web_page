@@ -1,0 +1,51 @@
+---
+description: Premium digital studio website conventions
+globs: src/**/*
+alwaysApply: true
+---
+
+# Premium Studio Website Rules
+
+## TypeScript & Structure
+- Always use TypeScript.
+- Prefer reusable components in `src/components/ui`, `src/components/layout`, and `src/components/sections`.
+- Keep components small and clean.
+- Use semantic HTML (`header`, `nav`, `main`, `section`, `footer`, `article`, `blockquote`).
+
+## Content & Data
+- Keep all pricing, service, work, and testimonial content in `src/data/` files.
+- Keep brand name, nav, hero copy, and CTAs in `src/data/siteConfig.ts`.
+- Do not hardcode repeated content inside components.
+- Do not add fake backend logic.
+
+## Design
+- Mobile-first responsive design.
+- Premium spacing, typography, and visual hierarchy.
+- Visual concept: **"Digital systems in motion"** — flowing connection lines, animated nodes, system diagrams, kinetic typography.
+- Super premium dark theme: near-black, charcoal surfaces, soft white text, selective accent blue/violet/green.
+- Use `panel-surface`, `gradient-border`, `editorial-headline`, `label-mono` utility classes — not generic glass card grids.
+- No generic startup/SaaS template look.
+- Every section should feel like a different scene in one story — use asymmetry and overlapping layers.
+- Make CTAs clear and repeated throughout pages.
+- Make the website easy to expand later.
+
+## Animation (Framer Motion)
+- Keep animation smooth and performance-safe.
+- Prefer `transform` and `opacity` animations over layout-heavy animations.
+- Respect `prefers-reduced-motion`.
+- Use scroll reveals, subtle hovers, and staggered entrances — avoid excessive motion.
+
+## CSS
+- Use Tailwind CSS utilities and shared classes in `src/styles/index.css`.
+- Avoid messy one-off CSS unless necessary for effects (noise, grid, marquee).
+- No horizontal scrolling on any breakpoint.
+
+## Performance
+- No WebGL, 3D libraries, or heavy canvas effects.
+- Use CSS gradients and lightweight motion.
+- Prefer placeholder gradients/CSS visuals over large image assets.
+
+## Expansion
+- New pages go in `src/pages/` and are registered in `src/app/App.tsx`.
+- New sections go in `src/components/sections/`.
+- New reusable UI goes in `src/components/ui/`.
