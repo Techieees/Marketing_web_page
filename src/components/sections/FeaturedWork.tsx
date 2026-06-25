@@ -35,7 +35,7 @@ export function FeaturedWork() {
       <Marquee speed={50} className="py-2">
         <div className="flex gap-6 px-3">
           {caseStudies.map((study, i) => (
-            <WorkCard key={study.id} study={study} index={i} variant="compact" />
+            <WorkCard key={study.id} study={study} index={i} variant="compact" priority={i === 0} />
           ))}
         </div>
       </Marquee>

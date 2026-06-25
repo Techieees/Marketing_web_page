@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 import type { CaseStudy } from '@/data/work'
@@ -12,9 +13,15 @@ interface WorkCardProps {
   study: CaseStudy
   index?: number
   variant?: 'default' | 'compact'
+  priority?: boolean
 }
 
-export function WorkCard({ study, index = 0, variant = 'default' }: WorkCardProps) {
+export const WorkCard = memo(function WorkCard({
+  study,
+  index = 0,
+  variant = 'default',
+  priority = false,
+}: WorkCardProps) {
   const titleDelay = index * 0.12
   const descDelay = titleDelay + study.title.length * 0.042 + 0.2
 
@@ -27,7 +34,7 @@ export function WorkCard({ study, index = 0, variant = 'default' }: WorkCardProp
       transition={{ delay: index * 0.06 }}
       whileHover={{ y: -4 }}
       className={cn(
-        'group relative overflow-hidden rounded-2xl border border-border bg-surface transition-all duration-500 hover:border-border-hover',
+        'group relative overflow-hidden rounded-2xl border border-border bg-surface transition-[border-color,opacity] duration-500 hover:border-border-hover',
         variant === 'compact' ? 'min-w-[320px] max-w-[380px] shrink-0' : 'w-full',
       )}
     >
@@ -47,9 +54,10 @@ export function WorkCard({ study, index = 0, variant = 'default' }: WorkCardProp
           imageSrc={WORK_PREVIEW_IMAGES[study.preview].src}
           imageAlt={WORK_PREVIEW_IMAGES[study.preview].alt}
           imagePosition={WORK_PREVIEW_IMAGES[study.preview].position}
+          priority={priority}
         />
 
-        <div className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full border border-foreground/10 bg-background/60 opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:opacity-100 sm:right-4 sm:top-4 sm:h-10 sm:w-10">
+        <div className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full border border-foreground/10 bg-background/80 opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:right-4 sm:top-4 sm:h-10 sm:w-10">
           <ArrowUpRight className="h-4 w-4 text-foreground" />
         </div>
       </div>
@@ -107,4 +115,4 @@ export function WorkCard({ study, index = 0, variant = 'default' }: WorkCardProp
       </div>
     </motion.article>
   )
-}
+})

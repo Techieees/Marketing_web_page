@@ -7,6 +7,7 @@ interface WorkPreviewMockProps {
   imageAlt: string
   imagePosition?: string
   className?: string
+  priority?: boolean
 }
 
 function BrowserFrame({
@@ -41,6 +42,7 @@ export function WorkPreviewMock({
   imageAlt,
   imagePosition = 'center center',
   className,
+  priority = false,
 }: WorkPreviewMockProps) {
   return (
     <div className={cn('absolute inset-1.5 sm:inset-2.5', className)}>
@@ -48,8 +50,11 @@ export function WorkPreviewMock({
         <img
           src={imageSrc}
           alt={imageAlt}
-          loading="lazy"
+          width={2400}
+          height={1500}
+          loading={priority ? 'eager' : 'lazy'}
           decoding="async"
+          fetchPriority={priority ? 'high' : 'auto'}
           className="h-full w-full object-cover"
           style={{ objectPosition: imagePosition }}
         />

@@ -1,13 +1,13 @@
 export const siteConfig = {
   brand: {
-    name: 'Techies Studio',
+    name: 'Ironflow Studios',
     tagline: 'Websites, dashboards and automation for modern businesses.',
     description:
       'A small studio that builds websites, dashboards and the tools behind them.',
   },
 
   contact: {
-    email: 'hello@techiesstudio.com',
+    email: 'hello@ironflowstudios.com',
     bookingUrl: '#contact',
     responseTime: 'Usually within one business day.',
   },
@@ -129,6 +129,6 @@ export const siteConfig = {
 
   footer: {
     tagline: 'Websites, dashboards, automation.',
-    copyright: `© ${new Date().getFullYear()} Techies Studio. All rights reserved.`,
+    copyright: `© ${new Date().getFullYear()} Ironflow Studios. All rights reserved.`,
   },
 } as const

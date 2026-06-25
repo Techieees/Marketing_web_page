@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { NetworkLabel } from '@/components/visual/NetworkLabel'
 import { useNetworkColorWave } from '@/hooks/useNetworkColorWave'
@@ -21,7 +21,6 @@ interface Connection {
   x2: number
   y2: number
   animated: boolean
-  delay: number
 }
 
 const INPUT_SLOT_COLORS = ['#f87171', '#fb923c', '#fbbf24', '#f472b6'] as const
@@ -96,7 +95,6 @@ function buildNetwork() {
           x2: to.x,
           y2: to.y,
           animated: connIndex % 8 === 0,
-          delay: (connIndex % 24) * 0.1,
         })
       })
     })
@@ -117,15 +115,35 @@ export function NeuralNetworkVisual({
   const reduced = useReducedMotion()
   const { nodes, connections } = useMemo(() => buildNetwork(), [])
   const colors = useNetworkColorWave(VIEW_W)
+  const [introDone, setIntroDone] = useState(false)
 
   const labeledNodes = nodes.filter((n) => n.labelSide !== undefined)
   const isBg = variant === 'background'
+
+  const visibleConnections = useMemo(
+    () => (isBg ? connections.filter((_, i) => i % 2 === 0) : connections),
+    [connections, isBg],
+  )
+
+  const animatedConnections = useMemo(
+    () => visibleConnections.filter((c) => c.animated),
+    [visibleConnections],
+  )
+
+  useEffect(() => {
+    if (reduced) {
+      setIntroDone(true)
+      return
+    }
+    const t = window.setTimeout(() => setIntroDone(true), 1200)
+    return () => clearTimeout(t)
+  }, [reduced])
 
   return (
     <div
       className={
         isBg
-          ? `pointer-events-none fixed inset-0 z-0 ${className ?? ''}`
+          ? `gpu-layer pointer-events-none fixed inset-0 z-0 ${className ?? ''}`
           : `relative ${className ?? ''}`
       }
       aria-hidden="true"
@@ -138,7 +156,7 @@ export function NeuralNetworkVisual({
         preserveAspectRatio={isBg ? 'xMidYMid slice' : 'xMidYMid meet'}
       >
         <g strokeLinecap="round">
-          {connections.map((conn) => (
+          {visibleConnections.map((conn) => (
             <line
               key={conn.id}
               x1={conn.x1}
@@ -155,40 +173,51 @@ export function NeuralNetworkVisual({
           ))}
 
           {!reduced &&
-            connections
-              .filter((c) => c.animated)
-              .map((conn) => (
-                <line
-                  key={`a-${conn.id}`}
-                  x1={conn.x1}
-                  y1={conn.y1}
-                  x2={conn.x2}
-                  y2={conn.y2}
-                  className="network-line-active"
-                  stroke={colors.lineStrokeStrong(conn.x1, conn.x2)}
-                  strokeWidth="0.75"
-                  strokeDasharray="3 12"
-                />
-              ))}
+            animatedConnections.map((conn) => (
+              <line
+                key={`a-${conn.id}`}
+                x1={conn.x1}
+                y1={conn.y1}
+                x2={conn.x2}
+                y2={conn.y2}
+                className="network-line-active"
+                stroke={colors.lineStrokeStrong(conn.x1, conn.x2)}
+                strokeWidth="0.75"
+                strokeDasharray="3 12"
+              />
+            ))}
         </g>
 
         {nodes.map((node, i) => {
           const isLabeled = node.labelSide !== undefined
+          const fill = reduced
+            ? isLabeled
+              ? node.accentColor!
+              : 'rgba(110, 230, 160, 0.45)'
+            : isLabeled
+              ? node.accentColor!
+              : colors.nodeFill(node.x)
+
+          if (introDone || reduced) {
+            return (
+              <circle
+                key={node.id}
+                cx={node.x}
+                cy={node.y}
+                r={isLabeled ? 4.5 : 2.5}
+                fill={fill}
+                opacity={isLabeled ? 0.9 : 0.5}
+              />
+            )
+          }
+
           return (
             <motion.circle
               key={node.id}
               cx={node.x}
               cy={node.y}
               r={isLabeled ? 4.5 : 2.5}
-              fill={
-                reduced
-                  ? isLabeled
-                    ? node.accentColor!
-                    : 'rgba(110, 230, 160, 0.45)'
-                  : isLabeled
-                    ? node.accentColor!
-                    : colors.nodeFill(node.x)
-              }
+              fill={fill}
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: isLabeled ? 0.9 : 0.5, scale: 1 }}
               transition={{

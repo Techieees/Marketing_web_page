@@ -156,37 +156,24 @@ export function HeroHeadline({ className }: HeroHeadlineProps) {
 
 function TypewriterSuffix({ text }: { text: string }) {
   const reduced = useReducedMotion()
-  const [show, setShow] = useState(false)
+  const [visible, setVisible] = useState(reduced)
 
   useEffect(() => {
-    if (reduced) {
-      setShow(true)
-      return
-    }
-    const t = setTimeout(() => setShow(true), 3200)
+    if (reduced) return
+    const t = setTimeout(() => setVisible(true), 3200)
     return () => clearTimeout(t)
   }, [reduced])
 
-  if (reduced || !show) {
-    return reduced ? (
-      <span className="text-foreground/90">{text}</span>
-    ) : (
-      <span className="min-h-[1.15em]" aria-hidden="true" />
-    )
+  if (!visible) {
+    return <span className="min-h-[1.15em]" aria-hidden="true" />
   }
 
   return (
-    <span className="text-foreground/90">
-      {text.split('').map((char, i) => (
-        <motion.span
-          key={`${char}-${i}`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.03, delay: i * 0.045, ease: 'easeOut' }}
-        >
-          {char === ' ' ? ' ' : char}
-        </motion.span>
-      ))}
+    <span
+      className="text-foreground/90 transition-opacity duration-500 ease-out"
+      style={{ opacity: visible ? 1 : 0 }}
+    >
+      {text}
     </span>
   )
 }

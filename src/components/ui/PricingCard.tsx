@@ -28,7 +28,7 @@ export function PricingCard({ pkg, index = 0 }: PricingCardProps) {
       transition={{ delay: index * 0.05 }}
       whileHover={{ y: -4 }}
       className={cn(
-        'group relative flex min-w-0 flex-col rounded-2xl p-6 md:p-8 transition-shadow duration-500',
+        'group relative flex min-w-0 flex-col rounded-2xl p-6 md:p-8',
         isHighlighted
           ? 'glass-strong ring-1 ring-foreground/15 shadow-[0_0_60px_-12px_var(--card-glow-shadow)]'
           : 'glass hover:border-border-hover',

@@ -43,6 +43,9 @@ function MagneticWrapper({
   className?: string
 }) {
   const ref = useRef<HTMLDivElement>(null)
+  const rectRef = useRef<DOMRect | null>(null)
+  const rafRef = useRef(0)
+  const pendingRef = useRef<{ x: number; y: number } | null>(null)
   const x = useMotionValue(0)
   const y = useMotionValue(0)
   const springX = useSpring(x, { stiffness: 300, damping: 20 })
@@ -52,21 +55,38 @@ function MagneticWrapper({
     return <div className={className}>{children}</div>
   }
 
+  function flushMove() {
+    rafRef.current = 0
+    const pending = pendingRef.current
+    if (!pending) return
+    x.set(pending.x)
+    y.set(pending.y)
+    pendingRef.current = null
+  }
+
   return (
     <motion.div
       ref={ref}
       style={{ x: springX, y: springY }}
       className={className}
+      onMouseEnter={() => {
+        if (ref.current) rectRef.current = ref.current.getBoundingClientRect()
+      }}
       onMouseMove={(e) => {
-        const el = ref.current
-        if (!el) return
-        const rect = el.getBoundingClientRect()
+        const rect = rectRef.current
+        if (!rect) return
         const offsetX = e.clientX - rect.left - rect.width / 2
         const offsetY = e.clientY - rect.top - rect.height / 2
-        x.set(offsetX * 0.15)
-        y.set(offsetY * 0.15)
+        pendingRef.current = { x: offsetX * 0.15, y: offsetY * 0.15 }
+        if (!rafRef.current) {
+          rafRef.current = requestAnimationFrame(flushMove)
+        }
       }}
       onMouseLeave={() => {
+        rectRef.current = null
+        pendingRef.current = null
+        if (rafRef.current) cancelAnimationFrame(rafRef.current)
+        rafRef.current = 0
         x.set(0)
         y.set(0)
       }}

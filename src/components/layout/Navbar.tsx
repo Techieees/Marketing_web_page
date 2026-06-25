@@ -14,8 +14,14 @@ export function Navbar() {
   const location = useLocation()
 
   useEffect(() => {
+    let ticking = false
     function onScroll() {
-      setScrolled(window.scrollY > 20)
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 20)
+        ticking = false
+      })
     }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -37,9 +43,9 @@ export function Navbar() {
     <>
       <header
         className={cn(
-          'fixed inset-x-0 top-0 z-50 transition-all duration-500',
+          'fixed inset-x-0 top-0 z-50 transition-[opacity,transform,background-color,border-color] duration-300',
           scrolled
-            ? 'border-b border-border/50 bg-background/70 backdrop-blur-xl'
+            ? 'border-b border-border/50 bg-background/92 md:bg-background/70 md:backdrop-blur-xl'
             : 'bg-transparent',
         )}
       >
@@ -51,7 +57,7 @@ export function Navbar() {
             to="/"
             className="relative z-10 text-sm font-medium tracking-tight transition-opacity hover:opacity-80"
           >
-            <TypewriterBrand name={siteConfig.brand.name} />
+            <TypewriterBrand />
           </Link>
 
           <div className="hidden items-center gap-8 md:flex">

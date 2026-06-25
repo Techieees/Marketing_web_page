@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Techies Studio — Premium websites, dashboards and automation for modern businesses."
+      content="Ironflow Studios — Premium websites, dashboards and automation for modern businesses."
     />
-    <title>Techies Studio — Digital Studio</title>
+    <title>Ironflow Studios — Digital Studio</title>
     <script>
       ;(function () {
-        var stored = localStorage.getItem('techies-theme')
+        var stored =
+          localStorage.getItem('ironflow-theme') || localStorage.getItem('techies-theme')
         var theme = stored === 'dark' ? 'dark' : 'light'
         document.documentElement.dataset.theme = theme
         document.documentElement.style.colorScheme = theme

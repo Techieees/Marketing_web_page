@@ -12,7 +12,7 @@ export function Footer() {
       <div className="container-wide flex flex-wrap items-center justify-between gap-x-6 gap-y-3 px-5 py-5 md:px-8 md:py-6 lg:px-12">
         <div className="flex min-w-0 flex-wrap items-center gap-x-2.5 gap-y-1 sm:gap-x-3">
           <Link to="/" className="shrink-0 text-sm font-medium md:text-base">
-            <TypewriterBrand name={siteConfig.brand.name} />
+            <TypewriterBrand />
           </Link>
           <span className="hidden text-muted/40 sm:inline" aria-hidden="true">
             ·

@@ -23,7 +23,7 @@ export function ServiceCard({ service, index = 0 }: ServiceCardProps) {
       viewport={{ once: true, margin: '-60px' }}
       transition={{ delay: index * 0.08 }}
       whileHover={{ y: -4 }}
-      className="group relative overflow-hidden rounded-2xl glass transition-all duration-500 hover:border-border-hover"
+      className="group relative overflow-hidden rounded-2xl glass transition-[border-color,opacity] duration-500 hover:border-border-hover"
     >
       <div
         className={cn(
@@ -31,7 +31,7 @@ export function ServiceCard({ service, index = 0 }: ServiceCardProps) {
           service.gradient,
         )}
       />
-      <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-foreground/[0.03] blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
+      <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-foreground/[0.03] opacity-0 transition-opacity duration-500 group-hover:opacity-100 md:blur-2xl" />
 
       <div className="relative min-w-0 p-6 md:p-8">
         <div className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border surface-highlight">
