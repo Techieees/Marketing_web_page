@@ -41,13 +41,15 @@ export function AppLayout() {
   }, [location.pathname])
 
   return (
-    <div className="relative flex min-h-screen flex-col">
-      <DeferredMount>
-        <Suspense fallback={null}>
-          <NeuralNetworkVisual variant="background" />
-        </Suspense>
-      </DeferredMount>
-      <div className="noise-overlay perf-noise" aria-hidden="true" />
+    <div className="relative flex min-h-screen flex-col bg-background">
+      <div className="desktop-bg-visual" aria-hidden="true">
+        <DeferredMount>
+          <Suspense fallback={null}>
+            <NeuralNetworkVisual variant="background" />
+          </Suspense>
+        </DeferredMount>
+      </div>
+      <div className="noise-overlay perf-noise desktop-bg-visual" aria-hidden="true" />
       <Navbar />
       <main className="relative z-10 flex flex-1 flex-col">
         <Outlet />

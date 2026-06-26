@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { cn } from '@/utils/cn'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 import {
   ROTATE_SETS,
   ROTATE_SIZE,
@@ -114,6 +115,7 @@ interface RotatingLineProps {
   startIndex?: number
   align?: 'left' | 'center'
   className?: string
+  reserveWidth?: boolean
 }
 
 export function RotatingLine({
@@ -122,6 +124,7 @@ export function RotatingLine({
   startIndex = 0,
   align = 'center',
   className,
+  reserveWidth = true,
 }: RotatingLineProps) {
   return (
     <span
@@ -131,7 +134,13 @@ export function RotatingLine({
         className,
       )}
     >
-      <RotatingTypewriter words={words} size={size} startIndex={startIndex} align={align} />
+      <RotatingTypewriter
+        words={words}
+        size={size}
+        startIndex={startIndex}
+        align={align}
+        reserveWidth={reserveWidth}
+      />
     </span>
   )
 }
@@ -141,14 +150,21 @@ interface HeroHeadlineProps {
 }
 
 export function HeroHeadline({ className }: HeroHeadlineProps) {
+  const isMobile = useMediaQuery('(max-width: 768px)')
+
   return (
     <h1
       className={cn(
-        'mx-auto flex max-w-3xl flex-col items-center gap-2 text-balance text-4xl font-medium leading-[1.12] tracking-tight sm:text-5xl md:text-6xl',
+        'mx-auto flex w-full max-w-3xl flex-col items-center gap-2 text-balance text-4xl font-medium leading-[1.12] tracking-tight max-md:gap-1 max-md:!text-[1.65rem] max-md:!leading-[1.22] sm:text-5xl md:text-6xl',
         className,
       )}
     >
-      <RotatingLine size="hero" words={ROTATE_SETS.hero} className="px-2" />
+      <RotatingLine
+        size="hero"
+        words={ROTATE_SETS.hero}
+        className="w-full max-w-full px-1 md:px-2"
+        reserveWidth={!isMobile}
+      />
       <TypewriterSuffix text="for modern businesses." />
     </h1>
   )

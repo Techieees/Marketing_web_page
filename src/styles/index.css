@@ -81,6 +81,10 @@ html[data-theme='dark'] {
 
   html {
     scroll-behavior: auto;
+    color-scheme: dark;
+  }
+
+  html[data-theme='light'] {
     color-scheme: light;
   }
 
@@ -217,6 +221,35 @@ html[data-theme='dark'] {
     .perf-noise {
       opacity: 0 !important;
     }
+  }
+}
+
+@media (max-width: 768px) {
+  html,
+  body,
+  #root {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .desktop-bg-visual {
+    display: none !important;
+  }
+
+  .services-section.section-scrim {
+    background: var(--color-background);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .mobile-services-list {
+    width: 100%;
+  }
+
+  .hero-section-content {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 }
 

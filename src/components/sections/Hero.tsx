@@ -11,12 +11,12 @@ export function Hero() {
   const { hero } = siteConfig
 
   return (
-    <section className="relative flex min-h-[100svh] flex-col items-center justify-center px-5 pb-20 pt-28 text-center md:px-8 md:pt-32 lg:px-12">
+    <section className="relative flex min-h-[88svh] flex-col items-center justify-center overflow-x-hidden px-5 pb-14 pt-24 text-center md:min-h-[100svh] md:px-8 md:pb-20 md:pt-28 lg:px-12 lg:pt-32">
       <motion.div
         variants={heroStagger}
         initial="hidden"
         animate="visible"
-        className="relative z-10 mx-auto max-w-3xl"
+        className="hero-section-content relative z-10 mx-auto max-w-3xl"
       >
         <motion.div variants={heroItem}>
           <HeroHeadline />

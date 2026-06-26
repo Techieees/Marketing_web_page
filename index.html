@@ -1,19 +1,38 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
     <meta
       name="description"
       content="Ironflow Studios — Premium websites, dashboards and automation for modern businesses."
     />
     <title>Ironflow Studios — Digital Studio</title>
+    <style>
+      html,
+      body {
+        background-color: #050505;
+        color: #f5f5f0;
+        color-scheme: dark;
+      }
+      html[data-theme='light'],
+      html[data-theme='light'] body {
+        background-color: #fafaf8;
+        color: #171717;
+        color-scheme: light;
+      }
+      #root {
+        min-height: 100vh;
+        background-color: inherit;
+      }
+    </style>
     <script>
       ;(function () {
         var stored =
           localStorage.getItem('ironflow-theme') || localStorage.getItem('techies-theme')
-        var theme = stored === 'dark' ? 'dark' : 'light'
+        var theme = stored === 'light' ? 'light' : 'dark'
         document.documentElement.dataset.theme = theme
         document.documentElement.style.colorScheme = theme
       })()
